@@ -1,0 +1,8 @@
+﻿  main.cpp
+C:\Users\Timof\source\repos\Colors\Colors\main.cpp(71,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  Generating code
+  0 of 1512 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Colors.vcxproj -> C:\Users\Timof\source\repos\Colors\x64\Release\Colors.exe
