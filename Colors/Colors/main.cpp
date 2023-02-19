@@ -68,7 +68,7 @@ void hsl_to_rgb(float* hsl, float* rgb)
     float z = (h / 60.0f);
 
     float c = (1.0f - std::abs(2.0f * l - 1.0f)) * s;
-    float x = c * (1.0f - std::abs((fmod(z, 2)) - 1.0f));
+    float x = c * (1.0f - (float)std::abs((fmod(z, 2)) - 1.0f));
     float m = l - (c / 2.0f);
 
     float r = 0, g = 0, b = 0;
@@ -216,6 +216,22 @@ int main()
 
             if (ImGui::ColorPicker4("##picker", (float*)&clear_color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoSidePreview | ImGuiColorEditFlags_NoSmallPreview))
             {
+                if (clear_color.x > 255)
+                    clear_color.x = 255;
+                if (clear_color.y > 255)
+                    clear_color.y = 255;
+                if (clear_color.z > 255)
+                    clear_color.z = 255;
+
+                if (clear_color.x < 0)
+                    clear_color.x = 0;
+                if (clear_color.y < 0)
+                    clear_color.y = 0;
+                if (clear_color.z < 0)
+                    clear_color.z = 0;
+
+
+
                 rgb_color.x = clear_color.x * 255.0f;
                 rgb_color.y = clear_color.y * 255.0f;
                 rgb_color.z = clear_color.z * 255.0f;
@@ -227,6 +243,20 @@ int main()
             ImGui::SameLine();
             if (ImGui::DragFloat3("##RGB*", (float*)&clear_color, 0.01f, 0.0f, 1.0f))
             {
+                if (clear_color.x > 255)
+                    clear_color.x = 255;
+                if (clear_color.y > 255)
+                    clear_color.y = 255;
+                if (clear_color.z > 255)
+                    clear_color.z = 255;
+
+                if (clear_color.x < 0)
+                    clear_color.x = 0;
+                if (clear_color.y < 0)
+                    clear_color.y = 0;
+                if (clear_color.z < 0)
+                    clear_color.z = 0;
+
                 rgb_color.x = clear_color.x * 255.0f;
                 rgb_color.y = clear_color.y * 255.0f;
                 rgb_color.z = clear_color.z * 255.0f;
@@ -236,8 +266,22 @@ int main()
 
             ImGui::Text("RGB ");
             ImGui::SameLine();
-            if (ImGui::DragFloat3("##RGB", (float*)&rgb_color, 1.0f, 0.0f, 255.0f))
+            if (ImGui::DragFloat3("##RGB", (float*)&rgb_color, 1.0f, 0.0f, 255.0f, "%.f"))
             {
+                if (rgb_color.x > 255)
+                    rgb_color.x = 255;
+                if (rgb_color.y > 255)
+                    rgb_color.y = 255;
+                if (rgb_color.z > 255)
+                    rgb_color.z = 255;
+
+                if (rgb_color.x < 0)
+                    rgb_color.x = 0;
+                if (rgb_color.y < 0)
+                    rgb_color.y = 0;
+                if (rgb_color.z < 0)
+                    rgb_color.z = 0;
+
                 rgb_to_cmyk((float*)&rgb_color, (float*)&cmyk_color);
                 rgb_to_hsl((float*)&rgb_color, (float*)&hsl_color);
             }
@@ -246,20 +290,52 @@ int main()
             ImGui::SameLine();
             if (ImGui::DragFloat4("##CMYK", (float*)&cmyk_color, 0.01f, 0.0f, 1.0f))
             {
+                if (cmyk_color.x > 1)
+                    cmyk_color.x = 1;
+                if (cmyk_color.y > 1)
+                    cmyk_color.y = 1;
+                if (cmyk_color.z > 1)
+                    cmyk_color.z = 1;
+                if (cmyk_color.w > 1)
+                    cmyk_color.w = 1;
+
+                if (cmyk_color.x < 0)
+                    cmyk_color.x = 0;
+                if (cmyk_color.y < 0)
+                    cmyk_color.y = 0;
+                if (cmyk_color.z < 0)
+                    cmyk_color.z = 0;
+                if (cmyk_color.w < 0)
+                    cmyk_color.w = 1;
+
                 cmyk_to_rgb((float*)&cmyk_color, (float*)&rgb_color);
                 rgb_to_hsl((float*)&rgb_color, (float*)&hsl_color);
             }
 
             ImGui::Text("HSL ");
             ImGui::SameLine();
-            if (ImGui::DragFloat("##HLS_H", &hsl_color.x, 1.0f, 0.0f, 360.0f))
+            if (ImGui::DragFloat("##HLS_H", &hsl_color.x, 1.0f, 0.0f, 360.0f, "%.f"))
             {
+                if (hsl_color.x > 360)
+                    hsl_color.x = 360;
+                if (hsl_color.x < 0)
+                    hsl_color.x = 0;
+
                 hsl_to_rgb((float*)&hsl_color, (float*)&rgb_color);
                 rgb_to_cmyk((float*)&rgb_color, (float*)&cmyk_color);
             }
 
             if (ImGui::DragFloat2("##HLS_SL", (float*)&hsl_color.y, 0.01f, 0.0f, 1.0f))
             {
+                if (hsl_color.y > 1)
+                    hsl_color.y = 1;
+                if (hsl_color.y < 0)
+                    hsl_color.y = 0;
+                if (hsl_color.z > 1)
+                    hsl_color.z = 1;
+                if (hsl_color.z < 0)
+                    hsl_color.z = 0;
+
                 hsl_to_rgb((float*)&hsl_color, (float*)&rgb_color);
                 rgb_to_cmyk((float*)&rgb_color, (float*)&cmyk_color);
             }
